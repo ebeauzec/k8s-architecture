@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: italian-pod
+  labels:
+    app: italianPod
+spec:
+  containers:
+    - name: calculator
+      image: vimazac/calculator:vurl
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: italian-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: italianPod
+  ports:
+    - port: 8080
+      targetPort: 8080
