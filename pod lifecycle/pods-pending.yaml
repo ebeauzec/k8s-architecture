@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hawaian-pod
+  labels:
+    app: hawaian-pod
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-server
+  labels:
+    app: redis-server
+spec:
+  containers:
+    - name: redis-server
+      image: vimazac/redis-server
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 6379
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-server-service
+spec:
+  type: ClusterIP
+  selector:
+    app: redis-server
+  ports:
+    - port: 6379
+      targetPort: 6379
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: italian-pod
+  labels:
+    app: italianPod
+spec:
+  containers:
+    - name: calculator
+      image: vimazac/calculator
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: italian-service
+spec:
+  type: ClusterIP
+  selector:
+    app: italianPod
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-test
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: redis-server-dep
+  template:
+    metadata:
+      labels:
+        app: redis-server-dep
+    spec:
+      containers:
+        - name: redis-server
+          image: vimazac/redis-server
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          
+    

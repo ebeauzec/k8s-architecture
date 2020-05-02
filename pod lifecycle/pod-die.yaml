@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: italian-pod
+  labels:
+    app: italianPod
+spec:
+  containers:
+    - name: calculator
+      image: vimazac/calculator:vdie
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
