@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: devops-cph
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: vilniusDevops
   ports:
