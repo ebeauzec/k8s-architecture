@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lund-devops
+  labels:
+    app: lund-devops
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vilnius-pod
+  labels:
+    app: vilniusDevops
+spec:
+  containers:
+    - name: calculator
+      image: vimazac/calculator
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vilnius-pod-2
+  labels:
+    app: vilniusDevops
+spec:
+  containers:
+    - name: calculator
+      image: vimazac/calculator
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-cph
+spec:
+  type: ClusterIP
+  selector:
+    app: vilniusDevops
+  ports:
+    - port: 8000
+      targetPort: 8080
